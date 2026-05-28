@@ -5,21 +5,24 @@ from qiskit_aer.noise import NoiseModel
 from qiskit.providers.fake_provider import GenericBackendV2
 import matplotlib.pyplot as plt
 
+# The code applies the Deutsch-josza algorithm with n=2.
+
+# We initialise two qubits with states of |0⟩ for both.
 qc = QuantumCircuit(3, 2)
 
-# Output qubit
+# An X gate is applied followed by a hadamard gate to put it in the state |−⟩ .
 qc.x(2)
 qc.h(2)
 
-# Superposition
+# A hadamard gate is applied to the two input qubits.
 qc.h(0)
 qc.h(1)
 
-#  Balanced oracle
+# The oracle is applied. Here a balanced oracle is applied- the CNOT gate.  
 qc.cx(0, 2)
 qc.cx(1, 2)
 
-# Interference
+# Hadamard gate is applied again after oracle. This creates interference.
 qc.h(0)
 qc.h(1)
 
@@ -47,11 +50,15 @@ counts = result.get_counts()
 # Determine result
 dominant_state = max(counts, key=counts.get)
 
+# Print the ouput of whether the function is constant or balanced
 if dominant_state == '00':
     print("Constant")
 else:
     print("Balanced")
 
+# Print the counts of each qubit
 print(counts)
+
+# Plot a histogram to see the count of each qubit and visualize the noise.
 plot_histogram(counts)
 plt.show()
