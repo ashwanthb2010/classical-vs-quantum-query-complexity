@@ -7,7 +7,11 @@ import matplotlib.pyplot as plt
 
 # The code applies the Deutsch-josza algorithm with n=2.
 
-# We initialise two qubits with states of |0⟩ for both.
+# Create a quantum circuit
+# 3 qubits total:
+# - qubit 0 and 1 are input qubits
+# - qubit 2 is the output qubit
+# 2 classical bits are used for measurement
 qc = QuantumCircuit(3, 2)
 
 # An X gate is applied followed by a hadamard gate to put it in the state |−⟩ .
@@ -41,6 +45,8 @@ noise_model = NoiseModel.from_backend(fake_backend)
 job = simulator.run(
     qc,
     noise_model=noise_model,
+    
+    # The number of shots is the number of times the code is implemented or iterated. The more the shots the better dominant result we get.
     shots=1024
 )
 
@@ -61,4 +67,6 @@ print(counts)
 
 # Plot a histogram to see the count of each qubit and visualize the noise.
 plot_histogram(counts)
+
+# Display the histogram
 plt.show()
